@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ReplyRig{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="fw-bold mb-0">Dashboard</h2>
+    <p class="text-muted small mb-0">{{ current_user.email }}</p>
+  </div>
+  <div>
+    {% if current_user.plan != 'pro' %}
+      <form action="{{ url_for('stripe.create_checkout') }}" method="POST" class="d-inline">
+        <button class="btn btn-warning fw-bold">
+          ⚡ Upgrade to Pro — $29/mo
+        </button>
+      </form>
+    {% else %}
+      <form action="{{ url_for('stripe.customer_portal') }}" method="POST" class="d-inline">
+        <button class="btn btn-outline-secondary btn-sm">Manage Billing</button>
+      </form>
+    {% endif %}
+    <a href="{{ url_for('google_oauth.connect') }}" class="btn btn-outline-dark btn-sm ms-2">
+      <i class="bi bi-plus-circle"></i> Connect Business
+    </a>
+  </div>
+</div>
+
+{% if current_user.plan != 'pro' %}
+<div class="alert alert-warning d-flex align-items-center mb-4">
+  <div>
+    <strong>Free plan:</strong> Auto-replies are disabled until you upgrade.
+    Reviews are still being tracked.
+    <a href="#" onclick="document.querySelector('form[action*=checkout]').submit()" class="alert-link ms-1">
+      Upgrade for $29/mo →
+    </a>
+  </div>
+</div>
+{% endif %}
+
+{% if not business_data %}
+<div class="text-center py-5">
+  <div class="fs-1 mb-3">🏢</div>
+  <h4 class="fw-bold">No businesses connected yet</h4>
+  <p class="text-muted">Connect your Google Business Profile to start auto-replying to reviews.</p>
+  <a href="{{ url_for('google_oauth.connect') }}" class="btn btn-warning fw-bold mt-2">
+    Connect Your Google Business →
+  </a>
+</div>
+{% endif %}
+
+{% for item in business_data %}
+{% set biz = item.business %}
+{% set reviews = item.recent_reviews %}
+
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <h5 class="fw-bold mb-0">{{ biz.business_name or 'Unknown Business' }}</h5>
+      <small class="text-muted">{{ biz.google_location_id }}</small>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <!-- Tone selector -->
+      <form action="{{ url_for('dashboard.update_tone', business_id=biz.id) }}" method="POST" class="d-inline">
+        <select name="tone" class="form-select form-select-sm" onchange="this.form.submit()" style="width:140px">
+          <option value="professional" {% if biz.reply_tone == 'professional' %}selected{% endif %}>Professional</option>
+          <option value="friendly" {% if biz.reply_tone == 'friendly' %}selected{% endif %}>Friendly</option>
+          <option value="formal" {% if biz.reply_tone == 'formal' %}selected{% endif %}>Formal</option>
+        </select>
+      </form>
+
+      <!-- Auto-reply toggle -->
+      <form action="{{ url_for('dashboard.toggle_auto_reply', business_id=biz.id) }}" method="POST">
+        <button type="submit" class="btn btn-sm {% if biz.auto_reply_enabled %}btn-success{% else %}btn-outline-secondary{% endif %}">
+          {% if biz.auto_reply_enabled %}
+            <i class="bi bi-robot"></i> Auto-Reply ON
+          {% else %}
+            <i class="bi bi-pause-circle"></i> Paused
+          {% endif %}
+        </button>
+      </form>
+
+      <!-- Disconnect -->
+      <form action="{{ url_for('dashboard.disconnect_business', business_id=biz.id) }}" method="POST"
+            onsubmit="return confirm('Disconnect {{ biz.business_name }}? Review history will be deleted.')">
+        <button type="submit" class="btn btn-sm btn-outline-danger">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div class="card-body border-bottom">
+    <div class="row text-center g-3">
+      <div class="col-4">
+        <div class="stat-number">{{ biz.total_reviews }}</div>
+        <div class="stat-label">Total Reviews</div>
+      </div>
+      <div class="col-4">
+        <div class="stat-number text-success">{{ biz.replied_reviews }}</div>
+        <div class="stat-label">Replied</div>
+      </div>
+      <div class="col-4">
+        <div class="stat-number text-warning">{{ biz.pending_reviews }}</div>
+        <div class="stat-label">Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent reviews -->
+  {% if reviews %}
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th class="ps-3">Reviewer</th>
+          <th>Rating</th>
+          <th>Review</th>
+          <th>Reply</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for review in reviews %}
+        <tr>
+          <td class="ps-3 fw-semibold align-middle">{{ review.reviewer_name or '—' }}</td>
+          <td class="align-middle">
+            <span class="text-warning">
+              {% for i in range(review.star_rating or 0) %}★{% endfor %}
+              {% for i in range(5 - (review.star_rating or 0)) %}<span class="text-muted">★</span>{% endfor %}
+            </span>
+          </td>
+          <td class="text-muted small align-middle" style="max-width:250px">
+            <span class="text-truncate d-block" style="max-width:250px">
+              {{ review.review_text or '(no comment)' }}
+            </span>
+          </td>
+          <td class="text-muted small align-middle" style="max-width:250px">
+            {% if review.reply_text %}
+              <span class="text-truncate d-block" style="max-width:250px" title="{{ review.reply_text }}">
+                {{ review.reply_text }}
+              </span>
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+          <td class="align-middle">
+            {% if review.status == 'replied' %}
+              <span class="badge bg-success">Replied</span>
+            {% elif review.status == 'pending' %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% elif review.status == 'failed' %}
+              <span class="badge bg-danger">Failed</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ review.status }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="card-body text-center text-muted py-4">
+    <i class="bi bi-inbox fs-4 d-block mb-2"></i>
+    No reviews fetched yet — auto-reply will check hourly.
+  </div>
+  {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

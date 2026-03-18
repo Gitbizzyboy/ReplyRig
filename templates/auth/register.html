@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Create Account — ReplyRig{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card border-0 shadow-sm p-4">
+      <div class="card-body">
+        <h2 class="fw-bold text-center mb-1">Get started free</h2>
+        <p class="text-muted text-center small mb-4">14-day trial · No credit card required</p>
+
+        <form method="POST" action="{{ url_for('auth.register') }}">
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">Email</label>
+            <input type="email" class="form-control" id="email" name="email"
+                   placeholder="you@example.com" required autofocus
+                   value="{{ request.form.get('email', '') }}">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">Password</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   placeholder="At least 8 characters" required minlength="8">
+          </div>
+          <div class="mb-4">
+            <label for="confirm_password" class="form-label fw-semibold">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                   placeholder="••••••••" required minlength="8">
+          </div>
+          <button type="submit" class="btn btn-warning fw-bold w-100">Create Account →</button>
+        </form>
+
+        <p class="text-center text-muted small mt-3 mb-0">
+          By creating an account, you agree to our
+          <a href="#" class="text-muted">Terms of Service</a>.
+        </p>
+        <hr class="my-4">
+        <p class="text-center text-muted small mb-0">
+          Already have an account?
+          <a href="{{ url_for('auth.login') }}" class="fw-semibold">Log in →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

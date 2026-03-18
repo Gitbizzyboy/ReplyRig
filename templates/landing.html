@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}ReplyRig — Never Leave a Google Review Unanswered{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero text-center py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h1 class="display-4 fw-bold mb-3">
+        Never leave a Google review<br class="d-none d-md-block"> unanswered again.
+      </h1>
+      <p class="lead text-muted mb-4">
+        ReplyRig automatically responds to every Google Business review with AI —
+        personalized, professional, and posted within the hour.
+      </p>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg fw-bold px-5 py-3">
+        Connect Your Google Business →
+      </a>
+      <p class="mt-3 text-muted small">
+        <strong>No credit card required to start.</strong> 14-day free trial.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Social proof bar -->
+<div class="alert alert-dark text-center border-0 rounded-3 my-4">
+  <strong class="text-warning">Birdeye charges $350/mo for this. We don't.</strong>
+  &nbsp;·&nbsp; ReplyRig is <strong>$29/mo</strong> — same results, fraction of the price.
+</div>
+
+<!-- Features -->
+<section class="py-5">
+  <div class="row text-center g-4">
+    <div class="col-md-3">
+      <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="card-body">
+          <div class="fs-1 mb-3">🤖</div>
+          <h5 class="fw-bold">AI-personalized replies</h5>
+          <p class="text-muted small">Every response is unique and tailored to what the reviewer actually said. Never generic.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="card-body">
+          <div class="fs-1 mb-3">⚡</div>
+          <h5 class="fw-bold">Auto-posted in under an hour</h5>
+          <p class="text-muted small">ReplyRig checks for new reviews every hour and posts replies automatically. You do nothing.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="card-body">
+          <div class="fs-1 mb-3">⭐</div>
+          <h5 class="fw-bold">Works for every rating</h5>
+          <p class="text-muted small">Glowing 5-star or upset 1-star — ReplyRig handles them all with the right tone.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 border-0 shadow-sm p-3">
+        <div class="card-body">
+          <div class="fs-1 mb-3">🎯</div>
+          <h5 class="fw-bold">Custom tone settings</h5>
+          <p class="text-muted small">Choose Professional, Friendly, or Formal — ReplyRig matches your brand voice every time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="py-5">
+  <h2 class="text-center fw-bold mb-5">Set it up in 2 minutes</h2>
+  <div class="row g-4 justify-content-center">
+    <div class="col-md-4 text-center">
+      <div class="step-number">1</div>
+      <h5 class="fw-bold mt-3">Connect your Google Business</h5>
+      <p class="text-muted">Sign in with Google and authorize ReplyRig to read and reply to your reviews.</p>
+    </div>
+    <div class="col-md-4 text-center">
+      <div class="step-number">2</div>
+      <h5 class="fw-bold mt-3">Pick your tone</h5>
+      <p class="text-muted">Choose how you want to sound — professional, friendly, or formal. Done.</p>
+    </div>
+    <div class="col-md-4 text-center">
+      <div class="step-number">3</div>
+      <h5 class="fw-bold mt-3">Go back to work</h5>
+      <p class="text-muted">ReplyRig handles every new review. You get notified. Your reputation stays strong.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Built for trades -->
+<section class="py-5">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h2 class="fw-bold mb-3">Built for trades businesses</h2>
+      <p class="lead text-muted mb-4">
+        HVAC, plumbing, electrical, roofing, painting — if you're in the trades,
+        you're leaving money on the table with unanswered reviews.
+      </p>
+      <ul class="list-unstyled">
+        <li class="mb-2">✅ Google ranks businesses higher that respond to reviews</li>
+        <li class="mb-2">✅ 9 out of 10 customers read reviews before calling a contractor</li>
+        <li class="mb-2">✅ Responding to 1-star reviews reduces their impact</li>
+        <li class="mb-2">✅ You're too busy to do this yourself — now you don't have to</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <!-- Sample review card -->
+      <div class="card border-0 shadow p-4">
+        <div class="d-flex align-items-center mb-3">
+          <div class="avatar-placeholder me-3">MJ</div>
+          <div>
+            <strong>Mike J.</strong>
+            <div class="text-warning">★★★★★</div>
+          </div>
+        </div>
+        <p class="text-muted small mb-3">"These guys came out same day and fixed our AC in the middle of a heat wave. Jason was professional and explained everything. Highly recommend!"</p>
+        <div class="border-start border-warning ps-3 bg-light rounded p-2">
+          <small class="text-muted d-block mb-1"><strong>Owner reply · via ReplyRig</strong></small>
+          <small>Thank you so much, Mike! We're really glad Jason could get your AC back up quickly during that heat — same-day calls are always our priority. We appreciate the kind words and look forward to being your go-to HVAC team!</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="py-5 text-center">
+  <h2 class="fw-bold mb-2">Simple pricing</h2>
+  <p class="text-muted mb-5">One plan. Everything included.</p>
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card border-warning border-2 shadow-lg p-4">
+        <div class="card-body">
+          <h3 class="fw-bold">ReplyRig Pro</h3>
+          <div class="display-3 fw-bold my-3">$29<span class="fs-4 text-muted fw-normal">/mo</span></div>
+          <ul class="list-unstyled text-start mb-4">
+            <li class="mb-2">✅ Unlimited auto-replies</li>
+            <li class="mb-2">✅ All review ratings (1-5 stars)</li>
+            <li class="mb-2">✅ Multiple business locations</li>
+            <li class="mb-2">✅ Custom tone settings</li>
+            <li class="mb-2">✅ Reply dashboard & history</li>
+            <li class="mb-2">✅ Cancel anytime</li>
+          </ul>
+          <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg w-100 fw-bold">
+            Start Free Trial →
+          </a>
+          <p class="text-muted small mt-2 mb-0">14 days free · No credit card required</p>
+        </div>
+      </div>
+      <p class="text-muted small mt-3">vs. Birdeye: $350+/mo · Podium: $289+/mo</p>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="py-5 text-center bg-dark rounded-3 text-white mb-4">
+  <h2 class="fw-bold mb-3">Start replying to reviews today</h2>
+  <p class="lead text-muted mb-4">Takes 2 minutes to set up. Saves hours every month.</p>
+  <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg fw-bold px-5">
+    Connect Your Google Business →
+  </a>
+</section>
+{% endblock %}

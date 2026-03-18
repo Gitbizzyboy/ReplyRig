@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Log In — ReplyRig{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card border-0 shadow-sm p-4">
+      <div class="card-body">
+        <h2 class="fw-bold text-center mb-1">Welcome back</h2>
+        <p class="text-muted text-center small mb-4">Log in to your ReplyRig account</p>
+
+        <form method="POST" action="{{ url_for('auth.login') }}">
+          <div class="mb-3">
+            <label for="email" class="form-label fw-semibold">Email</label>
+            <input type="email" class="form-control" id="email" name="email"
+                   placeholder="you@example.com" required autofocus
+                   value="{{ request.form.get('email', '') }}">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">Password</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   placeholder="••••••••" required>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+            <label class="form-check-label text-muted small" for="remember">Keep me logged in</label>
+          </div>
+          <button type="submit" class="btn btn-warning fw-bold w-100">Log In</button>
+        </form>
+
+        <hr class="my-4">
+        <p class="text-center text-muted small mb-0">
+          Don't have an account?
+          <a href="{{ url_for('auth.register') }}" class="fw-semibold">Create one free →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
