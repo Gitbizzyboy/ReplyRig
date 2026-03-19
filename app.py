@@ -25,6 +25,13 @@ def create_app():
             'postgres://', 'postgresql://', 1
         )
 
+    # Ensure DATABASE_URL is a valid URL (handle unresolved Railway reference vars)
+    db_url = app.config.get('SQLALCHEMY_DATABASE_URI', '')
+    if not db_url or db_url.startswith('${{') or '://' not in db_url:
+        import logging
+        logging.getLogger(__name__).warning(f'Invalid DATABASE_URL "{db_url}", using SQLite fallback')
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///replyrig.db'
+
     # Init extensions
     db.init_app(app)
     login_manager.init_app(app)
