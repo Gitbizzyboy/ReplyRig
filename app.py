@@ -54,14 +54,18 @@ def create_app():
     def landing():
         return render_template('landing.html')
 
-    # Health check for Railway
+    # Health check for Railway — always returns 200 regardless of DB state
     @app.route('/health')
     def health():
-        return {'status': 'ok'}, 200
+        return 'ok', 200
 
-    # Create tables
-    with app.app_context():
-        db.create_all()
+    # Create tables (non-fatal — handles bad DB URL at startup gracefully)
+    try:
+        with app.app_context():
+            db.create_all()
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).error(f'DB init failed (will retry on first request): {e}')
 
     # Start background scheduler
     from scheduler.review_checker import start_scheduler
