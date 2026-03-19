@@ -1,11 +1,14 @@
 import os
 import logging
-import google.generativeai as genai
+import requests
 
 logger = logging.getLogger(__name__)
 
-genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
-model = genai.GenerativeModel('gemini-1.5-flash')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+GEMINI_URL = (
+    'https://generativelanguage.googleapis.com/v1beta/models/'
+    'gemini-1.5-flash:generateContent'
+)
 
 TONE_INSTRUCTIONS = {
     'professional': 'Be professional, courteous, and composed. Use proper grammar.',
@@ -36,7 +39,7 @@ def generate_response(
     tone: str = 'professional',
 ) -> str:
     """
-    Generate a personalized Google review response using Gemini.
+    Generate a personalized Google review response using Gemini REST API.
 
     Returns the response text, or raises an exception on failure.
     """
@@ -73,18 +76,27 @@ def generate_response(
             "Write the response now:"
         )
 
+    payload = {
+        'contents': [{'parts': [{'text': prompt}]}],
+        'generationConfig': {
+            'maxOutputTokens': 200,
+            'temperature': 0.8,
+        },
+    }
+
     try:
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                max_output_tokens=200,
-                temperature=0.8,
-            ),
+        resp = requests.post(
+            GEMINI_URL,
+            params={'key': GEMINI_API_KEY},
+            json=payload,
+            timeout=30,
         )
-        text = response.text.strip()
+        resp.raise_for_status()
+        data = resp.json()
+        text = data['candidates'][0]['content']['parts'][0]['text'].strip()
         logger.info(f'Generated response for {reviewer_name} ({star_rating}★) at {business_name}')
         return text
 
     except Exception as e:
-        logger.error(f'Gemini error generating response: {e}')
+        logger.error(f'Gemini API error generating response: {e}')
         raise
