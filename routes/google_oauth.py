@@ -8,7 +8,7 @@ from googleapiclient.discovery import build
 from app import db
 from models.business import Business
 
-google_oauth_bp = Blueprint('google_oauth', __name__, url_prefix='/google')
+google_oauth_bp = Blueprint('google_oauth', __name__, url_prefix='/oauth')
 
 GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
@@ -26,7 +26,7 @@ CLIENT_CONFIG = {
         'client_secret': GOOGLE_CLIENT_SECRET,
         'auth_uri': 'https://accounts.google.com/o/oauth2/auth',
         'token_uri': 'https://oauth2.googleapis.com/token',
-        'redirect_uris': [f'{BASE_URL}/google/callback'],
+        'redirect_uris': [f'{BASE_URL}/oauth/callback'],
     }
 }
 
@@ -35,7 +35,7 @@ def get_flow():
     flow = Flow.from_client_config(
         CLIENT_CONFIG,
         scopes=SCOPES,
-        redirect_uri=f'{BASE_URL}/google/callback',
+        redirect_uri=f'{BASE_URL}/oauth/callback',
     )
     return flow
 
