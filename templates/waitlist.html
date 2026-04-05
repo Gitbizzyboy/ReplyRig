@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Join the Waitlist — ReplyRig{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+
+        <div class="text-center mb-4">
+          <span class="fs-1">⭐</span>
+          <h1 class="fw-bold mt-2">Get Early Access to ReplyRig</h1>
+          <p class="text-muted">
+            Auto-generate and post AI replies to your Google Business reviews — for $29/mo.
+            Birdeye charges $350+. Join the waitlist and lock in early access.
+          </p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          {% endfor %}
+        {% endwith %}
+
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <form method="POST" action="{{ url_for('waitlist.waitlist') }}">
+              <div class="mb-3">
+                <label for="name" class="form-label fw-semibold">Your Name <span class="text-muted fw-normal">(optional)</span></label>
+                <input type="text" class="form-control form-control-lg" id="name" name="name"
+                       placeholder="Jane Smith" autocomplete="name">
+              </div>
+              <div class="mb-4">
+                <label for="email" class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control form-control-lg" id="email" name="email"
+                       placeholder="you@example.com" required autocomplete="email">
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-warning btn-lg fw-semibold text-dark">
+                  <i class="bi bi-star me-2"></i>Join the Waitlist
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <p class="text-center text-muted small mt-3">
+          <i class="bi bi-shield-lock text-warning"></i>
+          No spam. Unsubscribe anytime. Your email is safe with us.
+        </p>
+
+        <div class="row text-center mt-4 g-3">
+          <div class="col-4">
+            <div class="p-2">
+              <div class="fw-bold text-warning">✓</div>
+              <small class="text-muted">$29/mo flat</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2">
+              <div class="fw-bold text-warning">✓</div>
+              <small class="text-muted">AI-generated replies</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2">
+              <div class="fw-bold text-warning">✓</div>
+              <small class="text-muted">Cancel anytime</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

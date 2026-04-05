@@ -162,8 +162,13 @@
 <section class="py-5 text-center bg-dark rounded-3 text-white mb-4">
   <h2 class="fw-bold mb-3">Start replying to reviews today</h2>
   <p class="lead text-muted mb-4">Takes 2 minutes to set up. Saves hours every month.</p>
-  <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg fw-bold px-5">
-    Connect Your Google Business →
-  </a>
+  <div class="d-flex gap-3 justify-content-center flex-wrap">
+    <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg fw-bold px-5">
+      Connect Your Google Business →
+    </a>
+    <a href="{{ url_for('waitlist.waitlist') }}" class="btn btn-outline-light btn-lg px-4">
+      <i class="bi bi-envelope me-2"></i>Join the Waitlist
+    </a>
+  </div>
 </section>
 {% endblock %}

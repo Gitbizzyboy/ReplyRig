@@ -50,11 +50,13 @@ def create_app():
     from routes.dashboard import dashboard_bp
     from routes.google_oauth import google_oauth_bp
     from routes.stripe_webhook import stripe_bp
+    from routes.waitlist import waitlist_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(google_oauth_bp)
     app.register_blueprint(stripe_bp)
+    app.register_blueprint(waitlist_bp)
 
     # Landing page
     @app.route('/')
@@ -69,6 +71,7 @@ def create_app():
     # Create tables (non-fatal — handles bad DB URL at startup gracefully)
     try:
         with app.app_context():
+            from models.waitlist import WaitlistEntry  # noqa: ensure table is registered
             db.create_all()
     except Exception as e:
         import logging

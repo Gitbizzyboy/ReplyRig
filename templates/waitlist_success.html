@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}You're on the List! — ReplyRig{% endblock %}
+
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5 text-center">
+        <div class="py-5">
+          <div class="fs-1 mb-3">🎉</div>
+          <h1 class="fw-bold text-warning">You're on the list!</h1>
+          <p class="lead text-muted mt-3">
+            We'll email you the moment payments go live. You're in good hands.
+          </p>
+          <p class="text-muted">
+            In the meantime, feel free to share ReplyRig with any local business owner who's tired of ignoring Google reviews.
+          </p>
+          <a href="{{ url_for('landing') }}" class="btn btn-outline-warning btn-lg mt-3">
+            <i class="bi bi-house me-2"></i>Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
